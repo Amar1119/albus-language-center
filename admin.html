@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Бүртгэл — Albus Admin</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/js/admin.js" defer></script>
+<style>
+:root{
+  --navy:#0d1b2a;--navy-2:#13263a;--navy-3:#1b3149;
+  --gold:#c3a06b;--gold-light:#dcc39a;--gold-dark:#a5824f;
+  --paper:#fbf9f4;--cream:#f6f2ea;--ink:#0d1b2a;--muted:#6b7480;--line:#e2dccf;
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:"Jost",system-ui,sans-serif;
+  --new:#c3a06b;--contacted:#4f7fa8;--enrolled:#4f9a6e;--cancelled:#9a9fa6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+[hidden]{display:none!important}
+
+.mark{width:30px;height:34px;color:var(--gold);flex:none}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;line-height:1}
+.brand strong{font-family:var(--serif);font-size:24px;font-weight:600}
+.brand small{display:block;font-size:8px;letter-spacing:.4em;color:var(--gold);margin-top:5px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:11px 18px;border:1px solid transparent;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:.25s;background:none}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-line{border-color:rgba(255,255,255,.25);color:#fff}
+.btn-line:hover{border-color:var(--gold);color:var(--gold-light)}
+.btn-dark{border-color:var(--line);color:var(--ink);background:#fff}
+.btn-dark:hover{border-color:var(--gold)}
+.btn[disabled]{opacity:.6;cursor:wait}
+
+/* ---------- Login ---------- */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(900px 500px at 80% 20%,rgba(195,160,107,.12),transparent 60%),var(--navy);color:#fff}
+.login-card{width:min(400px,100%);border:1px solid rgba(195,160,107,.25);padding:44px 36px;position:relative;background:rgba(255,255,255,.02)}
+.login-card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(195,160,107,.1);pointer-events:none}
+.login-card .brand{justify-content:center;margin-bottom:34px}
+.login-card h1{font-family:var(--serif);font-weight:500;font-size:32px;text-align:center;margin-bottom:26px}
+.login label{display:block;font-size:10px;letter-spacing:.26em;color:var(--gold);margin-bottom:8px}
+.login input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.25);padding:10px 0;font-size:16px;color:#fff;outline:none}
+.login input:focus{border-color:var(--gold)}
+.login .btn{width:100%;margin-top:28px;padding:15px}
+.login-error{color:#e8a87c;font-size:13px;margin-top:14px;text-align:center;min-height:20px}
+
+/* ---------- Topbar ---------- */
+.topbar{background:var(--navy);color:#fff;position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(195,160,107,.2)}
+.topbar-in{max-width:1400px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.topbar-actions{display:flex;gap:10px;align-items:center}
+.live{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:#4f9a6e;box-shadow:0 0 8px #4f9a6e}
+
+.wrap{max-width:1400px;margin:auto;padding:28px 24px 60px}
+.page-title{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+.page-title h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4vw,46px);line-height:1}
+.page-title h1 em{color:var(--gold-dark)}
+
+/* ---------- Stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--line);padding:18px 20px;position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c,var(--navy))}
+.stat span{font-size:10px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+.stat strong{display:block;font-family:var(--serif);font-size:38px;font-weight:600;line-height:1.1;margin-top:4px}
+
+/* ---------- Filters ---------- */
+.filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--line);padding:12px;margin-bottom:14px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{border:1px solid transparent;background:none;padding:8px 14px;font-size:13px;cursor:pointer;color:var(--muted)}
+.tab:hover{color:var(--ink)}
+.tab.active{background:var(--navy);color:#fff}
+.tab b{font-weight:500;opacity:.6;margin-left:4px}
+.filters select,.filters input{border:1px solid var(--line);background:var(--paper);padding:9px 12px;font-size:14px;outline:none}
+.filters select:focus,.filters input:focus{border-color:var(--gold)}
+.filters .search{flex:1;min-width:180px}
+
+/* ---------- Table ---------- */
+.table-wrap{background:#fff;border:1px solid var(--line);overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:14px 14px;border-bottom:1px solid var(--line);background:var(--paper);white-space:nowrap}
+td{padding:14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr.is-new td:first-child{box-shadow:inset 3px 0 0 var(--gold)}
+tr.flash{animation:flash 2.5s ease}
+@keyframes flash{from{background:rgba(195,160,107,.25)}to{background:transparent}}
+.c-date{white-space:nowrap;color:var(--muted);font-size:13px}
+.c-name{font-weight:500}
+.c-phone a{text-decoration:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.c-phone a:hover{color:var(--gold-dark)}
+.course-pill{display:inline-block;font-size:12px;padding:3px 10px;border:1px solid var(--gold);color:var(--gold-dark);white-space:nowrap}
+.c-msg{max-width:260px;color:var(--muted);font-size:13px;white-space:pre-wrap;word-break:break-word}
+.status-select{border:1px solid var(--line);padding:6px 8px;font-size:13px;background:#fff;cursor:pointer;border-left:3px solid var(--c);outline:none}
+.note{width:100%;min-width:160px;border:1px solid transparent;background:transparent;padding:6px 8px;font-size:13px;resize:vertical;min-height:34px;outline:none}
+.note:hover{border-color:var(--line)}
+.note:focus{border-color:var(--gold);background:var(--paper)}
+.del{border:none;background:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:4px 8px}
+.del:hover{color:#b5543c}
+
+.empty{padding:60px 20px;text-align:center;color:var(--muted)}
+.empty .mark{margin:0 auto 14px;opacity:.5}
+.more{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:16px;color:var(--muted);font-size:13px}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,calc(100% + 40px));opacity:0;visibility:hidden;background:var(--navy);color:#fff;padding:12px 20px;font-size:14px;border-left:3px solid var(--gold);transition:.35s;z-index:50;max-width:90vw}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
+.toast.error{border-left-color:#e8a87c}
+
+/* ---------- Mobile: table → cards ---------- */
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(3,1fr)}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  .table-wrap{background:none;border:none}
+  tr{background:#fff;border:1px solid var(--line);margin-bottom:12px;padding:6px 4px}
+  td{border:none;padding:8px 14px}
+  td[data-label]::before{content:attr(data-label);display:block;font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+  .c-msg{max-width:none}
+  .c-del{text-align:right;padding-top:0}
+  .live{display:none}
+}
+@media (max-width:560px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:first-child{grid-column:span 2}
+  .topbar-in,.wrap{padding-left:16px;padding-right:16px}
+  .btn .lbl{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="a-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="114">
+      <rect width="100" height="114" fill="#000"/>
+      <path d="M12 104 L50 22 L88 104" fill="none" stroke="#fff" stroke-width="15" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M12 104 L50 22 L88 104" fill="none" stroke="#000" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <symbol id="albus-mark" viewBox="0 0 100 114">
+    <circle cx="50" cy="9" r="6" fill="currentColor"/>
+    <rect x="0" y="0" width="100" height="114" fill="currentColor" mask="url(#a-mask)"/>
+    <line x1="38" y1="72" x2="62" y2="72" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<!-- ================= LOGIN ================= -->
+<section class="login" id="loginView" hidden>
+  <form class="login-card" id="loginForm">
+    <a class="brand" href="/">
+      <svg class="mark"><use href="#albus-mark"/></svg>
+      <span><strong>Albus</strong><small>LANGUAGE CENTER</small></span>
+    </a>
+    <h1>Админ нэвтрэх</h1>
+    <label for="password">НУУЦ ҮГ</label>
+    <input id="password" type="password" autocomplete="current-password" required autofocus>
+    <button class="btn btn-gold" type="submit" id="loginBtn">Нэвтрэх</button>
+    <p class="login-error" id="loginError" role="alert"></p>
+  </form>
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+<div id="appView" hidden>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="/" style="color:#fff">
+        <svg class="mark"><use href="#albus-mark"/></svg>
+        <span><strong>Albus</strong><small>ADMIN</small></span>
+      </a>
+      <div class="topbar-actions">
+        <span class="live" id="liveText">Шууд шинэчлэгдэнэ</span>
+        <a class="btn btn-line" href="/api/admin/export.csv" title="Excel-д нээгдэх CSV татах">⤓ <span class="lbl">Excel (CSV)</span></a>
+        <button class="btn btn-line" id="logoutBtn" type="button">Гарах</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-title">
+      <h1>Бүртгэлийн <em>хүсэлтүүд</em></h1>
+    </div>
+
+    <section class="stats" id="stats">
+      <div class="stat" style="--c:var(--navy)"><span>Нийт</span><strong data-stat="total">–</strong></div>
+      <div class="stat" style="--c:var(--gold)"><span>Өнөөдөр</span><strong data-stat="today">–</strong></div>
+      <div class="stat" style="--c:var(--new)"><span>Шинэ</span><strong data-stat="new">–</strong></div>
+      <div class="stat" style="--c:var(--contacted)"><span>Холбогдсон</span><strong data-stat="contacted">–</strong></div>
+      <div class="stat" style="--c:var(--enrolled)"><span>Элссэн</span><strong data-stat="enrolled">–</strong></div>
+    </section>
+
+    <section class="filters">
+      <div class="tabs" id="tabs" role="tablist">
+        <button class="tab active" data-status="">Бүгд</button>
+        <button class="tab" data-status="new">Шинэ <b data-count="new"></b></button>
+        <button class="tab" data-status="contacted">Холбогдсон</button>
+        <button class="tab" data-status="enrolled">Элссэн</button>
+        <button class="tab" data-status="cancelled">Цуцалсан</button>
+      </div>
+      <select id="courseFilter" aria-label="Сургалтаар шүүх">
+        <option value="">Бүх сургалт</option>
+      </select>
+      <input class="search" id="search" type="search" placeholder="Нэр, утас, тэмдэглэлээр хайх…" aria-label="Хайх">
+    </section>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Огноо</th><th>Нэр</th><th>Утас</th><th>Сургалт</th>
+            <th>Нэмэлт мэдээлэл</th><th>Төлөв</th><th>Тэмдэглэл</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>
+        <svg class="mark"><use href="#albus-mark"/></svg>
+        <p>Бүртгэл олдсонгүй.</p>
+      </div>
+    </div>
+
+    <div class="more">
+      <span id="countText"></span>
+      <button class="btn btn-dark" id="moreBtn" type="button" hidden>Цааш үзэх</button>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

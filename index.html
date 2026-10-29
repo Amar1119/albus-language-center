@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Albus Language Center</title>
+<meta name="description" content="Albus Language Center — Англи, IELTS, SAT, Герман, Орос, Хятад, Солонгос хэлний сургалт. Хэлээр дамжин соён гэгээрцгээе.">
+<meta name="theme-color" content="#0d1b2a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="/js/boot.js"></script>
+<script src="/js/main.js" defer></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================
+   ALBUS — THEME (логоны өнгөөр)
+========================================= */
+:root{
+  --navy:#0d1b2a;
+  --navy-2:#13263a;
+  --navy-3:#1b3149;
+  --gold:#c3a06b;
+  --gold-light:#dcc39a;
+  --gold-dark:#a5824f;
+  --cream:#f6f2ea;
+  --paper:#fbf9f4;
+  --ink:#0d1b2a;
+  --muted:#6b7480;
+  --line:#e2dccf;
+  --line-dark:rgba(195,160,107,.22);
+  --serif:"Cormorant Garamond", Georgia, serif;
+  --sans:"Jost", system-ui, sans-serif;
+  --max:1240px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  font-weight:400;
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+::selection{background:var(--gold);color:var(--navy)}
+
+.container{width:min(90%,var(--max));margin:auto}
+.section{padding:130px 0}
+
+.label{
+  display:inline-flex;align-items:center;gap:14px;
+  font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold-dark);margin-bottom:32px;
+}
+.label::before{content:"";width:36px;height:1px;background:currentColor}
+.on-dark .label{color:var(--gold)}
+
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.05;letter-spacing:-.01em}
+h2{font-size:clamp(42px,6vw,78px)}
+h2 em{font-style:italic;color:var(--gold)}
+
+/* =========================================
+   LOGO
+========================================= */
+.logo{display:flex;align-items:center;gap:14px;line-height:1}
+.logo-mark{width:34px;height:38px;color:var(--gold);flex:none}
+.logo-text{display:flex;flex-direction:column}
+.logo-text strong{font-family:var(--serif);font-size:27px;font-weight:600;letter-spacing:.01em}
+.logo-text small{font-size:8.5px;letter-spacing:.42em;color:var(--gold);margin-top:5px;font-weight:400}
+
+/* =========================================
+   HEADER
+========================================= */
+.header{
+  position:fixed;inset:0 0 auto 0;z-index:100;color:#fff;
+  transition:background .4s var(--ease), box-shadow .4s;
+}
+.header.scrolled{background:rgba(13,27,42,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line-dark)}
+.nav{height:92px;display:flex;align-items:center;justify-content:space-between;transition:height .4s var(--ease)}
+.scrolled .nav{height:74px}
+.navbar{display:flex;gap:38px}
+.navbar a{font-size:13px;letter-spacing:.06em;color:rgba(255,255,255,.78);position:relative;padding:6px 0;transition:color .3s}
+.navbar a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .35s var(--ease)}
+.navbar a:hover,.navbar a.active{color:#fff}
+.navbar a:hover::after,.navbar a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-button{
+  border:1px solid var(--gold);color:var(--gold-light);
+  padding:12px 24px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  transition:.35s var(--ease);
+}
+.nav-button:hover{background:var(--gold);color:var(--navy)}
+.menu-toggle{display:none;width:44px;height:44px;background:none;border:1px solid rgba(255,255,255,.25);cursor:pointer;position:relative}
+.menu-toggle span{position:absolute;left:12px;right:12px;height:1px;background:#fff;transition:.35s var(--ease)}
+.menu-toggle span:nth-child(1){top:17px}
+.menu-toggle span:nth-child(2){top:26px}
+.menu-open .menu-toggle span:nth-child(1){top:21px;transform:rotate(45deg)}
+.menu-open .menu-toggle span:nth-child(2){top:21px;transform:rotate(-45deg)}
+
+/* =========================================
+   HERO
+========================================= */
+.hero{
+  min-height:100vh;min-height:100svh;position:relative;overflow:hidden;
+  background:
+    radial-gradient(1200px 700px at 85% 40%, rgba(195,160,107,.10), transparent 60%),
+    radial-gradient(900px 600px at 0% 100%, rgba(27,49,73,.9), transparent 70%),
+    var(--navy);
+  color:#fff;display:flex;align-items:center;padding:140px 0 110px;
+}
+.hero::after{ /* нарийн торон бүтэц */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(195,160,107,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(195,160,107,.06) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at 70% 50%,#000 20%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 70% 50%,#000 20%,transparent 75%);
+}
+.rings{position:absolute;right:-180px;top:50%;width:760px;height:760px;transform:translateY(-50%);pointer-events:none}
+.rings span{position:absolute;inset:0;border:1px solid rgba(195,160,107,.16);border-radius:50%}
+.rings span:nth-child(2){inset:110px;border-color:rgba(195,160,107,.12)}
+.rings span:nth-child(3){inset:220px;border-color:rgba(195,160,107,.09)}
+.rings span:nth-child(1)::before{
+  content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--gold);
+  top:50%;left:-5px;box-shadow:0 0 20px var(--gold);
+}
+.rings span:nth-child(1){animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1.25fr .75fr;gap:70px;align-items:center}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.42em;color:var(--gold);margin-bottom:30px;text-transform:uppercase}
+.hero h1{font-size:clamp(58px,8.4vw,124px);font-weight:500;letter-spacing:-.02em;line-height:.95;margin-bottom:34px}
+.hero h1 em{font-style:italic;color:var(--gold);font-weight:500}
+.hero-description{max-width:480px;color:rgba(255,255,255,.72);font-size:17px;font-weight:300;margin-bottom:44px}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+
+.btn{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:17px 30px;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  transition:.35s var(--ease);border:1px solid transparent;cursor:pointer;
+}
+.btn .arrow{transition:transform .35s var(--ease)}
+.btn:hover .arrow{transform:translateX(5px)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-ghost{border-color:rgba(255,255,255,.3);color:#fff;background:transparent}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold-light)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy-3)}
+
+/* Hero logo card */
+.hero-card{
+  position:relative;aspect-ratio:3/4;max-width:340px;justify-self:end;width:100%;
+  border:1px solid var(--line-dark);
+  background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01));
+  backdrop-filter:blur(8px);
+  padding:28px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.hero-card::before{content:"";position:absolute;inset:10px;border:1px solid rgba(195,160,107,.12);pointer-events:none}
+.hero-card-top,.hero-card-bottom{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.32em;color:rgba(255,255,255,.55)}
+.hero-card-top strong{color:var(--gold);font-weight:500}
+.hero-card-center{display:flex;flex-direction:column;align-items:center;gap:22px}
+.hero-card-center .logo-mark{width:120px;height:136px;filter:drop-shadow(0 10px 40px rgba(195,160,107,.25))}
+.hero-card-center .word{font-family:var(--serif);font-size:44px;font-weight:600;line-height:1}
+.hero-card-center .sub{font-size:10px;letter-spacing:.5em;color:var(--gold);text-align:center;line-height:2}
+
+.scroll-text{
+  position:absolute;bottom:34px;left:5%;z-index:2;
+  font-size:10px;letter-spacing:.36em;color:rgba(255,255,255,.45);
+  display:flex;align-items:center;gap:14px;
+}
+.scroll-text::after{content:"";width:1px;height:38px;background:linear-gradient(var(--gold),transparent);animation:drip 2s ease-in-out infinite}
+@keyframes drip{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* =========================================
+   MARQUEE
+========================================= */
+.marquee{background:var(--navy-2);color:var(--gold-light);border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);overflow:hidden;padding:22px 0}
+.marquee-track{display:flex;width:max-content;animation:marquee 38s linear infinite}
+.marquee-track span{font-family:var(--serif);font-style:italic;font-size:28px;padding:0 34px;white-space:nowrap;display:flex;align-items:center;gap:68px}
+.marquee-track span::after{content:"✦";font-style:normal;font-size:12px;color:var(--gold)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* =========================================
+   ABOUT
+========================================= */
+.about{background:var(--paper)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start}
+.large-text{font-family:var(--serif);font-size:clamp(22px,2.2vw,28px);line-height:1.4;margin-bottom:26px;color:var(--ink)}
+.about-text p:not(.large-text){color:var(--muted);margin-bottom:34px;font-weight:300;font-size:16px}
+.text-link{font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--gold);padding-bottom:6px;transition:.3s}
+.text-link:hover{color:var(--gold-dark)}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:110px;border-top:1px solid var(--line)}
+.stat{padding:36px 24px;border-right:1px solid var(--line)}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:none}
+.stat strong{display:block;font-family:var(--serif);font-size:clamp(36px,4vw,52px);white-space:nowrap;font-weight:500;line-height:1;color:var(--navy);margin-bottom:12px}
+.stat strong i{color:var(--gold);font-style:normal}
+.stat-mark{width:1em;height:1em;color:var(--gold)}
+.stat span{font-size:11px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase}
+
+/* =========================================
+   COURSES
+========================================= */
+.courses{background:var(--cream)}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:70px}
+.section-heading p{max-width:380px;color:var(--muted);font-weight:300;font-size:16px}
+
+.course-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.course-card.featured{grid-column:span 2}
+.course-card{
+  min-height:420px;padding:34px;position:relative;overflow:hidden;
+  border:1px solid var(--line);background:var(--paper);
+  display:flex;flex-direction:column;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s;
+}
+.course-card::before{
+  content:attr(data-glyph);position:absolute;right:-10px;bottom:-40px;
+  font-family:var(--serif);font-size:220px;line-height:1;color:var(--navy);opacity:.035;
+  transition:.6s var(--ease);pointer-events:none;
+}
+.course-card:hover{transform:translateY(-8px);box-shadow:0 30px 60px -20px rgba(13,27,42,.22);border-color:var(--gold)}
+.course-card:hover::before{opacity:.07;transform:translateY(-10px)}
+.course-top{display:flex;justify-content:space-between;align-items:flex-start}
+.course-number{font-size:11px;color:var(--muted);letter-spacing:.24em}
+.course-level{font-size:10px;letter-spacing:.18em;border:1px solid var(--line);padding:5px 10px;color:var(--muted)}
+.course-icon{
+  width:78px;height:78px;margin-top:46px;
+  border:1px solid var(--gold);color:var(--gold-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.04em;
+  position:relative;
+}
+.course-icon.long{font-size:18px;letter-spacing:0}
+.course-icon::after{content:"";position:absolute;inset:5px;border:1px solid rgba(195,160,107,.3)}
+.course-content{margin-top:auto;position:relative}
+.course-tag{font-size:10px;letter-spacing:.28em;color:var(--gold-dark);font-weight:500}
+.course-content h3{font-size:38px;margin:10px 0 12px}
+.course-content p{color:var(--muted);font-size:14px;font-weight:300;max-width:300px;margin-bottom:22px}
+.course-content a{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;gap:10px;transition:.3s}
+.course-content a:hover{color:var(--gold-dark);gap:16px}
+
+.course-card.featured{background:var(--navy);color:#fff;border-color:var(--navy)}
+.course-card.featured::before{color:var(--gold);opacity:.08}
+.featured .course-number,.featured .course-level{color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.15)}
+.featured .course-icon{color:var(--gold)}
+.featured .course-tag{color:var(--gold)}
+.featured .course-content p{color:rgba(255,255,255,.62)}
+.featured .course-content a{color:var(--gold-light)}
+
+/* =========================================
+   IELTS
+========================================= */
+.ielts{background:var(--navy);color:#fff;padding:130px 0;position:relative;overflow:hidden}
+.ielts::before{
+  content:"";position:absolute;left:-120px;bottom:-200px;width:520px;height:520px;border-radius:50%;
+  border:1px solid var(--line-dark);
+}
+.ielts-container{display:grid;grid-template-columns:1.2fr 1fr;gap:100px;align-items:center;position:relative}
+.ielts-left h2{font-size:clamp(48px,6.6vw,92px);margin-bottom:30px}
+.ielts-left p{max-width:480px;color:rgba(255,255,255,.66);font-weight:300;margin-bottom:42px}
+.ielts-skills{border-top:1px solid var(--line-dark)}
+.skill{
+  display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:10px;
+  padding:26px 0;border-bottom:1px solid var(--line-dark);transition:.4s var(--ease);
+}
+.skill:hover{padding-left:14px;background:linear-gradient(90deg,rgba(195,160,107,.08),transparent)}
+.skill span{font-size:11px;color:var(--gold);letter-spacing:.2em}
+.skill strong{font-family:var(--serif);font-size:30px;font-weight:500}
+.skill small{font-size:12px;color:rgba(255,255,255,.45);letter-spacing:.06em}
+
+/* =========================================
+   TEACHERS
+========================================= */
+.teachers{background:var(--paper)}
+.teacher-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.teacher-card{background:#fff;border:1px solid var(--line);transition:.5s var(--ease)}
+.teacher-card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -25px rgba(13,27,42,.25)}
+.teacher-image{
+  aspect-ratio:4/5;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 50% 30%,var(--navy-3),var(--navy) 70%);
+  display:flex;align-items:center;justify-content:center;
+}
+.teacher-image .logo-mark{width:70px;height:80px;color:var(--gold);opacity:.35;transition:.6s var(--ease)}
+.teacher-card:hover .teacher-image .logo-mark{opacity:.7;transform:scale(1.08)}
+.teacher-image .initial{
+  position:absolute;bottom:14px;right:18px;font-family:var(--serif);font-style:italic;
+  font-size:64px;line-height:1;color:rgba(195,160,107,.25);
+}
+.teacher-info{padding:24px 24px 28px}
+.teacher-info span{font-size:10px;color:var(--gold-dark);letter-spacing:.26em;font-weight:500}
+.teacher-info h3{font-size:27px;margin:10px 0 8px}
+.teacher-info p{font-size:14px;color:var(--muted);font-weight:300}
+
+/* =========================================
+   WHY
+========================================= */
+.why{background:var(--cream)}
+.why-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:120px}
+.why-intro p{color:var(--muted);font-weight:300;margin-top:28px;max-width:380px}
+.why-list{border-top:1px solid var(--line)}
+.why-item{display:grid;grid-template-columns:70px 1fr;gap:20px;padding:34px 0;border-bottom:1px solid var(--line)}
+.why-item > span{font-family:var(--serif);font-size:30px;color:var(--gold);line-height:1;font-style:italic}
+.why-item h3{font-size:28px;margin-bottom:10px}
+.why-item p{color:var(--muted);font-size:15px;font-weight:300;max-width:480px}
+
+/* =========================================
+   CTA
+========================================= */
+.cta{
+  background:
+    radial-gradient(700px 400px at 50% 0%,rgba(195,160,107,.18),transparent 70%),
+    var(--navy-2);
+  color:#fff;padding:140px 0;text-align:center;position:relative;overflow:hidden;
+  border-top:1px solid var(--line-dark);
+}
+.cta .logo-mark{width:46px;height:52px;color:var(--gold);margin:0 auto 30px}
+.cta-content p{font-size:11px;letter-spacing:.42em;color:var(--gold);margin-bottom:26px}
+.cta h2{font-size:clamp(58px,10vw,140px);margin-bottom:48px;line-height:.95}
+
+/* =========================================
+   CONTACT
+========================================= */
+.contact{background:var(--paper)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px}
+.contact-description{max-width:460px;color:var(--muted);font-weight:300;margin-top:28px}
+.contact-info{border-top:1px solid var(--line);margin-top:46px}
+.contact-item{padding:22px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:baseline}
+.contact-item > span{font-size:10px;color:var(--gold-dark);letter-spacing:.26em;font-weight:500}
+.contact-item .val{display:flex;flex-wrap:wrap;gap:6px 24px;font-family:var(--serif);font-size:22px;font-weight:500}
+.contact-item .val a:hover{color:var(--gold-dark)}
+.contact-item p.val{font-size:19px;line-height:1.4}
+
+.form{background:var(--navy);color:#fff;padding:46px;position:relative}
+.form::before{content:"";position:absolute;inset:10px;border:1px solid var(--line-dark);pointer-events:none}
+.form h3{font-size:34px;margin-bottom:8px}
+.form > p{color:rgba(255,255,255,.55);font-size:14px;font-weight:300;margin-bottom:30px}
+.field{margin-bottom:22px;position:relative}
+.field label{display:block;font-size:10px;letter-spacing:.26em;color:var(--gold);margin-bottom:8px}
+.field input,.field select,.field textarea{
+  width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);
+  padding:10px 0;font-size:16px;color:#fff;outline:none;transition:border-color .3s;border-radius:0;
+  -webkit-appearance:none;appearance:none;
+}
+.field select{cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%);background-position:calc(100% - 12px) 50%,calc(100% - 7px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+.field select option{color:var(--navy)}
+.field textarea{resize:vertical;min-height:70px;line-height:1.5}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.3)}
+.field small.err{display:block;color:#e8a87c;font-size:12px;margin-top:6px;min-height:0}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#e8a87c}
+.field label i{font-style:normal;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:none}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form .btn[disabled]{opacity:.6;cursor:wait}
+.form-success{display:none;text-align:center;padding:30px 0;position:relative}
+.form-success .logo-mark{width:54px;height:62px;margin:0 auto 22px}
+.form-success h3{margin-bottom:12px}
+.form-success p{color:rgba(255,255,255,.65);font-weight:300;margin-bottom:28px}
+.form.done .form-body{display:none}
+.form.done .form-success{display:block}
+.form .btn{width:100%;justify-content:center;margin-top:10px;position:relative}
+.form-note{font-size:12px;color:rgba(255,255,255,.4);margin-top:16px;text-align:center;position:relative}
+
+/* =========================================
+   FOOTER
+========================================= */
+.footer{background:var(--navy);color:#fff;padding:70px 0 28px;border-top:1px solid var(--line-dark)}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;align-items:center;padding-bottom:50px;border-bottom:1px solid var(--line-dark)}
+.footer-top > p{color:rgba(255,255,255,.6);text-align:center;font-family:var(--serif);font-style:italic;font-size:22px}
+.footer-links{display:flex;justify-content:flex-end;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:12px;letter-spacing:.06em;color:rgba(255,255,255,.6);transition:.3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-bottom{padding-top:26px;display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.38);letter-spacing:.2em}
+
+/* =========================================
+   REVEAL ANIMATION
+========================================= */
+.js .reveal{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal.d1{transition-delay:.1s}.js .reveal.d2{transition-delay:.2s}.js .reveal.d3{transition-delay:.3s}
+.hero .reveal{transition-duration:1.3s}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width:1100px){
+  .teacher-grid,.course-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:1000px){
+  .navbar{gap:22px}
+  .hero-content{grid-template-columns:1fr 280px;gap:40px}
+  .about-grid,.why-grid,.ielts-container,.contact-grid{grid-template-columns:1fr;gap:60px}
+  .section-heading{display:block}
+  .section-heading p{margin-top:20px}
+  .footer-top{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .footer-links{justify-content:center}
+}
+@media (max-width:860px){
+  .menu-toggle{display:block}
+  .navbar{
+    position:fixed;inset:0;background:var(--navy);
+    flex-direction:column;justify-content:center;align-items:center;gap:30px;
+    opacity:0;visibility:hidden;transition:.45s var(--ease);z-index:-1;
+  }
+  .navbar a{font-family:var(--serif);font-size:34px;color:#fff;letter-spacing:0}
+  .menu-open .navbar{opacity:1;visibility:visible}
+  .menu-open .header{background:var(--navy)}
+  .hero-content{grid-template-columns:1fr}
+  .hero-card{display:none}
+  .rings{width:520px;height:520px;right:-260px}
+}
+@media (max-width:700px){
+  .section{padding:90px 0}
+  .nav{height:76px}
+  .nav-button{display:none}
+  .hero{padding:120px 0 100px}
+  .hero-description{font-size:15px}
+  .hero-buttons{flex-direction:column;align-items:stretch}
+  .hero-buttons .btn{justify-content:space-between}
+  .stats{grid-template-columns:repeat(2,1fr);margin-top:70px}
+  .stat{border-bottom:1px solid var(--line)}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(3){padding-left:0}
+  .stat strong{font-size:42px}
+  .course-grid,.teacher-grid{grid-template-columns:1fr}
+  .course-card.featured{grid-column:auto}
+  .course-card{min-height:360px}
+  .ielts{padding:90px 0}
+  .skill strong{font-size:24px}
+  .skill small{display:none}
+  .contact-item{grid-template-columns:1fr;gap:6px}
+  .form{padding:34px 26px}
+  .footer-bottom{flex-direction:column;gap:10px;text-align:center}
+  .marquee-track span{font-size:22px;padding:0 22px;gap:44px}
+}
+@media (max-width:450px){
+  .container{width:88%}
+  .logo-text strong{font-size:23px}
+  .hero h1{font-size:52px}
+  h2{font-size:44px}
+  .stats{grid-template-columns:1fr}
+  .stat{border-right:none;padding-left:0}
+  .cta h2{font-size:62px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== Лого (SVG тэмдэг) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="a-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="114">
+      <rect width="100" height="114" fill="#000"/>
+      <path d="M12 104 L50 22 L88 104" fill="none" stroke="#fff" stroke-width="15" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M12 104 L50 22 L88 104" fill="none" stroke="#000" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <symbol id="albus-mark" viewBox="0 0 100 114">
+    <circle cx="50" cy="9" r="6" fill="currentColor"/>
+    <rect x="0" y="0" width="100" height="114" fill="currentColor" mask="url(#a-mask)"/>
+    <line x1="38" y1="72" x2="62" y2="72" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<!-- ================= HEADER ================= -->
+<header class="header" id="header">
+  <div class="container nav">
+    <a href="#home" class="logo" aria-label="Albus Language Center">
+      <svg class="logo-mark"><use href="#albus-mark"/></svg>
+      <span class="logo-text">
+        <strong>Albus</strong>
+        <small>LANGUAGE CENTER</small>
+      </span>
+    </a>
+
+    <nav class="navbar" id="navbar">
+      <a href="#home">Нүүр</a>
+      <a href="#about">Бидний тухай</a>
+      <a href="#courses">Сургалтууд</a>
+      <a href="#teachers">Багш нар</a>
+      <a href="#contact">Холбоо барих</a>
+    </nav>
+
+    <div class="nav-right">
+      <a href="#register" class="nav-button">Бүртгүүлэх</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Цэс нээх" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="rings" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <div class="container hero-content">
+    <div class="hero-text">
+      <p class="eyebrow reveal">Albus Language Center · Est. 2026</p>
+      <h1 class="reveal d1">Language<br><em>opens</em> the world.</h1>
+      <p class="hero-description reveal d2">
+        Гадаад хэлний мэдлэгээрээ өөрийн боломжийг тэлж,
+        дэлхийтэй холбогдоорой.
+      </p>
+      <div class="hero-buttons reveal d3">
+        <a href="#courses" class="btn btn-gold">Сургалтуудыг үзэх <span class="arrow">→</span></a>
+        <a href="#about" class="btn btn-ghost">Бидний тухай</a>
+      </div>
+    </div>
+
+    <div class="hero-card reveal d2" aria-hidden="true">
+      <div class="hero-card-top"><span>EST.</span><strong>2026</strong></div>
+      <div class="hero-card-center">
+        <svg class="logo-mark"><use href="#albus-mark"/></svg>
+        <div class="word">Albus</div>
+        <div class="sub">LANGUAGE<br>CENTER</div>
+      </div>
+      <div class="hero-card-bottom"><span>LEARN</span><span>CONNECT</span><span>GROW</span></div>
+    </div>
+  </div>
+
+  <div class="scroll-text">SCROLL TO EXPLORE</div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Hello</span><span>Hallo</span><span>Привет</span><span>你好</span><span>안녕하세요</span><span>Сайн байна уу</span>
+    <span>Hello</span><span>Hallo</span><span>Привет</span><span>你好</span><span>안녕하세요</span><span>Сайн байна уу</span>
+  </div>
+</div>
+
+<!-- ================= ABOUT ================= -->
+<section class="about section" id="about">
+  <div class="container">
+    <div class="label reveal">01 / About Albus</div>
+
+    <div class="about-grid">
+      <h2 class="reveal">Хэлээр дамжин <em>соён гэгээрцгээе.</em></h2>
+
+      <div class="about-text reveal d1">
+        <p class="large-text">
+          Albus Language Center нь суралцагчдад гадаад хэлний мэдлэг,
+          харилцааны чадвар, олон улсын орчинд өөрийгөө хөгжүүлэх
+          боломжийг олгох зорилготой.
+        </p>
+        <p>
+          Бид англи, герман, орос, хятад, солонгос хэл болон IELTS, SAT-ийн
+          сургалтуудыг түвшин бүрт тохирсон хөтөлбөрөөр санал болгодог.
+        </p>
+        <a href="#courses" class="text-link">Манай сургалтууд →</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat reveal"><strong>07</strong><span>Сургалтын хөтөлбөр</span></div>
+      <div class="stat reveal d1"><strong>IELTS<i>·</i>SAT</strong><span>Шалгалтын бэлтгэл</span></div>
+      <div class="stat reveal d2"><strong><svg class="stat-mark" aria-hidden="true"><use href="#albus-mark"/></svg></strong><span>Өндөр туршлагатай багш нар</span></div>
+      <div class="stat reveal d3"><strong><i>∞</i></strong><span>Боломж</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COURSES ================= -->
+<section class="courses section" id="courses">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <div class="label reveal">02 / Our Courses</div>
+        <h2 class="reveal">Explore your <em>language.</em></h2>
+      </div>
+      <p class="reveal d1">Өөрт тохирох хэлний сургалтаа сонгон, мэдлэгээ дараагийн түвшинд хүргээрэй.</p>
+    </div>
+
+    <div class="course-grid">
+
+      <article class="course-card featured reveal" data-glyph="E">
+        <div class="course-top"><span class="course-number">01</span><span class="course-level">A1 — C1</span></div>
+        <div class="course-icon">EN</div>
+        <div class="course-content">
+          <span class="course-tag">ENGLISH</span>
+          <h3>Англи хэл</h3>
+          <p>Анхан шатнаас ахисан түвшин хүртэлх англи хэлний сургалт.</p>
+          <a href="#register" data-course="Англи хэл">Бүртгүүлэх <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="course-card reveal d1" data-glyph="I">
+        <div class="course-top"><span class="course-number">02</span><span class="course-level">BAND 5.0 — 7.5+</span></div>
+        <div class="course-icon long">IELTS</div>
+        <div class="course-content">
+          <span class="course-tag">INTERNATIONAL EXAM</span>
+          <h3>IELTS</h3>
+          <p>IELTS шалгалтад системтэйгээр бэлтгэх хөтөлбөр.</p>
+          <a href="#register" data-course="IELTS">Бүртгүүлэх <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="course-card reveal d2" data-glyph="S">
+        <div class="course-top"><span class="course-number">03</span><span class="course-level">MATH · R&amp;W</span></div>
+        <div class="course-icon">SAT</div>
+        <div class="course-content">
+          <span class="course-tag">US COLLEGE ADMISSION</span>
+          <h3>SAT</h3>
+          <p>SAT шалгалтын Math болон Reading &amp; Writing хэсгүүдэд системтэй бэлтгэх хөтөлбөр.</p>
+          <a href="#register" data-course="SAT">Бүртгүүлэх <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="course-card reveal" data-glyph="D">
+        <div class="course-top"><span class="course-number">04</span><span class="course-level">A1 — B2</span></div>
+        <div class="course-icon">DE</div>
+        <div class="course-content">
+          <span class="course-tag">DEUTSCH</span>
+          <h3>Герман хэл</h3>
+          <p>Герман хэлний түвшин ахиулах, харилцааны чадварт чиглэсэн сургалт.</p>
+          <a href="#register" data-course="Герман хэл">Бүртгүүлэх <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="course-card reveal d1" data-glyph="Я">
+        <div class="course-top"><span class="course-number">05</span><span class="course-level">СУУРЬ — АХИСАН</span></div>
+        <div class="course-icon">RU</div>
+        <div class="course-content">
+          <span class="course-tag">РУССКИЙ</span>
+          <h3>Орос хэл</h3>
+          <p>Орос хэлний суурь болон ахисан түвшний сургалт.</p>
+          <a href="#register" data-course="Орос хэл">Бүртгүүлэх <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="course-card reveal d2" data-glyph="文">
+        <div class="course-top"><span class="course-number">06</span><span class="course-level">HSK</span></div>
+        <div class="course-icon">中</div>
+        <div class="course-content">
+          <span class="course-tag">中文</span>
+          <h3>Хятад хэл</h3>
+          <p>Хятад хэлний анхан шат болон түвшин ахиулах сургалт.</p>
+          <a href="#register" data-course="Хятад хэл">Бүртгүүлэх <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="course-card reveal d3" data-glyph="글">
+        <div class="course-top"><span class="course-number">07</span><span class="course-level">TOPIK</span></div>
+        <div class="course-icon">한</div>
+        <div class="course-content">
+          <span class="course-tag">한국어</span>
+          <h3>Солонгос хэл</h3>
+          <p>Солонгос хэлний суурь болон TOPIK-д чиглэсэн сургалт.</p>
+          <a href="#register" data-course="Солонгос хэл">Бүртгүүлэх <span>→</span></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= IELTS ================= -->
+<section class="ielts on-dark">
+  <div class="container ielts-container">
+    <div class="ielts-left">
+      <div class="label reveal">International English Testing System</div>
+      <h2 class="reveal d1">Achieve your <em>IELTS goal.</em></h2>
+      <p class="reveal d2">IELTS-ийн дөрвөн чадварыг системтэйгээр хөгжүүлж, олон улсын шалгалтад бэлтгээрэй.</p>
+      <a href="#register" class="btn btn-gold reveal d3" data-course="IELTS">IELTS сургалтын мэдээлэл <span class="arrow">→</span></a>
+    </div>
+
+    <div class="ielts-skills">
+      <div class="skill reveal"><span>01</span><strong>Listening</strong><small>Сонсох</small></div>
+      <div class="skill reveal d1"><span>02</span><strong>Reading</strong><small>Унших</small></div>
+      <div class="skill reveal d2"><span>03</span><strong>Writing</strong><small>Бичих</small></div>
+      <div class="skill reveal d3"><span>04</span><strong>Speaking</strong><small>Ярих</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEACHERS ================= -->
+<section class="teachers section" id="teachers">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <div class="label reveal">03 / Our Teachers</div>
+        <h2 class="reveal">Learn from <em>people.</em></h2>
+      </div>
+      <p class="reveal d1">Суралцагч бүрийн ахиц, зорилгод анхаарч ажиллах багш нарын баг.</p>
+    </div>
+
+    <div class="teacher-grid">
+
+      <article class="teacher-card reveal">
+        <div class="teacher-image">
+          <!-- Зураг нэмэх бол: <img src="teacher1.jpg" alt="Narankhuu Tsetsegmaa"> -->
+          <svg class="logo-mark"><use href="#albus-mark"/></svg>
+          <span class="initial">N</span>
+        </div>
+        <div class="teacher-info">
+          <span>ENGLISH / IELTS</span>
+          <h3>Narankhuu Tsetsegmaa</h3>
+          <p>Англи хэл болон IELTS-ийн сургалтын багш.</p>
+        </div>
+      </article>
+
+      <article class="teacher-card reveal d1">
+        <div class="teacher-image">
+          <svg class="logo-mark"><use href="#albus-mark"/></svg>
+          <span class="initial">E</span>
+        </div>
+        <div class="teacher-info">
+          <span>GERMAN</span>
+          <h3>Enhgerel</h3>
+          <p>Герман хэлний түвшин ахиулах сургалтын багш.</p>
+        </div>
+      </article>
+
+      <article class="teacher-card reveal d2">
+        <div class="teacher-image">
+          <svg class="logo-mark"><use href="#albus-mark"/></svg>
+          <span class="initial">K</span>
+        </div>
+        <div class="teacher-info">
+          <span>CHINESE</span>
+          <h3>Khaliun</h3>
+          <p>Хятад хэлний сургалтын багш.</p>
+        </div>
+      </article>
+
+      <article class="teacher-card reveal d3">
+        <div class="teacher-image">
+          <svg class="logo-mark"><use href="#albus-mark"/></svg>
+          <span class="initial">O</span>
+        </div>
+        <div class="teacher-info">
+          <span>KOREAN</span>
+          <h3>Od Altankhuyag</h3>
+          <p>Солонгос хэлний сургалтын багш.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY ALBUS ================= -->
+<section class="why section">
+  <div class="container why-grid">
+    <div class="why-intro">
+      <div class="label reveal">04 / Why Albus</div>
+      <h2 class="reveal">More than <em>language.</em></h2>
+      <p class="reveal d1">Бид зөвхөн хэл заадаггүй — суралцагч бүрийг дэлхийтэй харилцах итгэлтэй болгоно.</p>
+    </div>
+
+    <div class="why-list">
+      <div class="why-item reveal">
+        <span>01</span>
+        <div><h3>Experienced Teachers</h3><p>Сургалтын туршлагатай, суралцагчийн зорилгод нийцсэн багш нар.</p></div>
+      </div>
+      <div class="why-item reveal d1">
+        <span>02</span>
+        <div><h3>Modern Learning</h3><p>Орчин үеийн арга барил, ойлгомжтой сургалтын орчин.</p></div>
+      </div>
+      <div class="why-item reveal d2">
+        <span>03</span>
+        <div><h3>Practical Skills</h3><p>Зөвхөн дүрэм цээжлэх бус, бодит харилцаанд ашиглах чадварыг хөгжүүлнэ.</p></div>
+      </div>
+      <div class="why-item reveal d3">
+        <span>04</span>
+        <div><h3>Learning Community</h3><p>Хэл сурах хүсэлтэй хүмүүсийг нэг дор холбосон community.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta">
+  <div class="container cta-content">
+    <svg class="logo-mark reveal"><use href="#albus-mark"/></svg>
+    <p class="reveal">YOUR LANGUAGE JOURNEY STARTS HERE</p>
+    <h2 class="reveal d1">Ready to <em>learn?</em></h2>
+    <a href="#register" class="btn btn-gold reveal d2">Бүртгэл эхлүүлэх <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact section" id="contact">
+  <div class="container contact-grid">
+
+    <div>
+      <div class="label reveal">05 / Contact</div>
+      <h2 class="reveal">Let's start <em>together.</em></h2>
+      <p class="contact-description reveal d1">
+        Сургалтын талаарх дэлгэрэнгүй мэдээлэл, бүртгэл болон цагийн
+        хуваарийн талаар бидэнтэй холбогдоорой.
+      </p>
+
+      <div class="contact-info reveal d2">
+        <div class="contact-item">
+          <span>УТАС</span>
+          <div class="val">
+            <a href="tel:+97695606825">9560 6825</a>
+            <a href="tel:+97699592940">9959 2940</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span>ХАЯГ</span>
+          <p class="val">Сүхбаатарын талбайн зүүн талд, Туушин зочид буудлын чанх ард</p>
+        </div>
+        <div class="contact-item">
+          <span>СОШИАЛ</span>
+          <div class="val">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="form reveal d1" id="register" novalidate>
+      <div class="form-body">
+        <h3>Бүртгүүлэх хүсэлт</h3>
+        <p>Мэдээллээ үлдээгээрэй — бид тантай эргэн холбогдоно.</p>
+
+        <div class="field">
+          <label for="fname">НЭР</label>
+          <input id="fname" name="name" type="text" placeholder="Таны нэр" autocomplete="name" maxlength="80" required>
+          <small class="err" data-err="name"></small>
+        </div>
+        <div class="field">
+          <label for="fphone">УТАСНЫ ДУГААР</label>
+          <input id="fphone" name="phone" type="tel" inputmode="tel" placeholder="8888 8888" autocomplete="tel" maxlength="16" required>
+          <small class="err" data-err="phone"></small>
+        </div>
+        <div class="field">
+          <label for="fcourse">СУРГАЛТ</label>
+          <select id="fcourse" name="course">
+            <option>Англи хэл</option>
+            <option>IELTS</option>
+            <option>SAT</option>
+            <option>Герман хэл</option>
+            <option>Орос хэл</option>
+            <option>Хятад хэл</option>
+            <option>Солонгос хэл</option>
+          </select>
+          <small class="err" data-err="course"></small>
+        </div>
+        <div class="field">
+          <label for="fmessage">НЭМЭЛТ МЭДЭЭЛЭЛ <i>(заавал биш)</i></label>
+          <textarea id="fmessage" name="message" rows="2" maxlength="500" placeholder="Түвшин, тохиромжтой цаг гэх мэт"></textarea>
+          <small class="err" data-err="message"></small>
+        </div>
+
+        <!-- spam хамгаалалт: хүн харахгүй -->
+        <div class="hp" aria-hidden="true">
+          <label for="fwebsite">Website</label>
+          <input id="fwebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" class="btn btn-gold" id="submitBtn">Хүсэлт илгээх <span class="arrow">→</span></button>
+        <p class="form-note" id="formNote" role="status" aria-live="polite">Бид ажлын 1 өдрийн дотор холбогдоно.</p>
+      </div>
+
+      <div class="form-success" role="status" aria-live="polite">
+        <svg class="logo-mark"><use href="#albus-mark"/></svg>
+        <h3>Баярлалаа!</h3>
+        <p id="successText">Таны хүсэлтийг хүлээн авлаа. Бид удахгүй тантай холбогдоно.</p>
+        <button type="button" class="btn btn-ghost" id="againBtn">Дахин бүртгүүлэх</button>
+      </div>
+    </form>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container footer-top">
+    <a href="#home" class="logo">
+      <svg class="logo-mark"><use href="#albus-mark"/></svg>
+      <span class="logo-text"><strong>Albus</strong><small>LANGUAGE CENTER</small></span>
+    </a>
+    <p>Хэлээр дамжин соён гэгээрцгээе.</p>
+    <div class="footer-links">
+      <a href="#home">Нүүр</a>
+      <a href="#about">Бидний тухай</a>
+      <a href="#courses">Сургалтууд</a>
+      <a href="#teachers">Багш нар</a>
+      <a href="#contact">Холбоо барих</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 ALBUSLC. ALL RIGHTS RESERVED.</span>
+    <span>ALBUS LANGUAGE CENTER</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "albus-language-center",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Albus Language Center — вэбсайт ба бүртгэлийн систем (гадны сангүй Node.js + SQLite)",
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test \"test/*.test.js\""
+  },
+  "license": "UNLICENSED"
+}
